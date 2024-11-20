@@ -35,6 +35,8 @@ impl Operator {
     }
 }
 
+// 与えられた数字の組み合わせで全ての計算式を計算
+// 計算結果と計算式のリストのマップを返す
 pub fn calculate_all_expressions(numbers: &[i32]) -> HashMap<i32, Vec<String>> {
     let mut results: HashMap<i32, Vec<String>> = HashMap::new();
     
@@ -59,8 +61,10 @@ pub fn calculate_all_expressions(numbers: &[i32]) -> HashMap<i32, Vec<String>> {
                     };
                     if should_calculate {
                         if let Some(value) = op.apply(left_val, right_val) {
+                            // 値がある場合、式を作成
                             for left_formula in left_formulas {
                                 for right_formula in right_formulas {
+                                    // 括弧が必要か判定
                                     let formula = if needs_parentheses(left_formula, op) && needs_parentheses(right_formula, op) {
                                         format!("({}){}({})", left_formula, op.to_string(), right_formula)
                                     } else if needs_parentheses(left_formula, op) {
@@ -92,6 +96,7 @@ pub fn calculate_all_expressions(numbers: &[i32]) -> HashMap<i32, Vec<String>> {
     results
 }
 
+// 与えられた計算式に括弧が必要か判定
 fn needs_parentheses(formula: &str, parent_op: Operator) -> bool {
     if !formula.contains('+') && !formula.contains('-') && 
        !formula.contains('*') && !formula.contains('/') {
@@ -109,6 +114,7 @@ fn needs_parentheses(formula: &str, parent_op: Operator) -> bool {
         });
     
     if let Some(last_op) = last_op {
+        // 親の演算子よりも優先度が低い(加算と引算)場合は括弧が必要
         last_op.precedence() < parent_op.precedence()
     } else {
         false
