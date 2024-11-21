@@ -1,25 +1,26 @@
+use std::{collections::HashMap, result};
+
 mod preparation;
 
 fn convert_to_334(n: i32) -> String {
     // 使用する数字
-    let using_number = 334;
-    // 上記の値を最大桁数-1桁までにそれぞれの桁数ごとに分解し、配列へ
-    let mut using_number_tmp_array: Vec<i32> = using_number.to_string().chars().map(|c| c.to_digit(10).unwrap() as i32).collect();
+    let conversion_criteria_number = "334";
+    let conversion_criteria_number_len = conversion_criteria_number.len();
 
-    for i in 0..(using_number_tmp_array.len()-1) {
-        using_number_tmp_array.push(using_number_tmp_array[i]*10+using_number_tmp_array[i+1]);
+    let mut conversion_criteria_number_tmp_array: Vec<&str> = Vec::new();
+    for i in (0..conversion_criteria_number_len) {
+        for j in 0..conversion_criteria_number.len()-i {
+            conversion_criteria_number_tmp_array.push(&conversion_criteria_number[j..j+i+1]);
+        }
     }
-
-    using_number_tmp_array.push(using_number);
-
-    // 使う数字の配列を昇順にソート
-    using_number_tmp_array.sort();
-
     // 操作を不可能にするため、使う数字の配列をコピー
-    let using_number_array = using_number_tmp_array;
+    let conversion_criteria_number_array: Vec<i32> = conversion_criteria_number_tmp_array.iter().map(|&x| x.parse::<i32>().unwrap()).collect();
+    println!("Conversion Criteria Number Array: {:?}", conversion_criteria_number_array);
 
-    println!("Using number: {:?}", using_number_array);  // TODO: 消す
+    // 与えられた数字の組み合わせで全ての計算式を計算
+    let mut result1: HashMap<i32, Vec<String>> = HashMap::new();
 
+    // println!("Result1: {:?}", result1);
 
 
     "waaa".to_string()
@@ -27,9 +28,12 @@ fn convert_to_334(n: i32) -> String {
 
 
 fn main() {
-    let result1 = preparation::calculate_all_expressions(&[1, 1, 4, 5, 1, 4]);
-    println!("Result1: {:?}", result1);
     println!("Converting natural number to 334 equation");
-    let result = convert_to_334(10);
-    println!("Result: {}", result);
+    // let result = convert_to_334(10);
+    let result = preparation::create_all_combinations(vec![1,2,3,4]);
+    // println!("Result: {:?}", result);
+    let mut sorted_result: Vec<_> = result.iter().collect();
+    sorted_result.sort();
+    println!("Sorted Result: {:?}", sorted_result);
+    // println!("result: {:?}", create_combination(vec![334,33,34,3,3,4], 4));
 }

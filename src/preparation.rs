@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, result};
 
 #[derive(Debug, Clone, Copy)]
 enum Operator {
@@ -35,9 +35,56 @@ impl Operator {
     }
 }
 
+// 与えられたn桁の数字の並びを保持したまま、作ることができる組み合わせを全て作成
+pub fn create_combination(n: &Vec<i32>) -> Vec<Vec<i32>> {
+    let mut result: Vec<Vec<i32>> = Vec::new();
+    for i in 0..n.len() {
+        result.extend(number_combinations(&n, i as u32));
+    }
+
+    result
+}
+
+fn number_combinations(n: &Vec<i32>, comma: u32) -> Vec<Vec<i32>>{
+    if comma == 0 {
+        return vec![trans_list_to_number(n)];
+    }
+
+    let mut result: Vec<Vec<i32>> = Vec::new();
+    for i in 1..(n.len()-comma as usize+1) {
+        for sublist in number_combinations(&n[i..].to_vec(), comma-1) {
+            let mut combined = trans_list_to_number(&n[..i].to_vec());
+            combined.extend(sublist);
+            result.push(combined);
+        }
+    }
+
+    result
+}
+
+fn trans_list_to_number(n: &Vec<i32>) -> Vec<i32> {
+    let mut result = 0;
+
+    for i in n {
+        result = result * 10 + i;
+    }
+
+    vec![result]
+}
+
+pub fn create_all_combinations(n: Vec<i32>) -> HashMap<i32, Vec<String>> {
+    let mut result: HashMap<i32, Vec<String>> = HashMap::new();
+
+    for i in create_combination(&n) {
+        result.extend(calculate_all_expressions(&i));
+    }
+
+    result
+}
+
 // 与えられた数字の組み合わせで全ての計算式を計算
 // 計算結果と計算式のリストのマップを返す
-pub fn calculate_all_expressions(numbers: &[i32]) -> HashMap<i32, Vec<String>> {
+fn calculate_all_expressions(numbers: &[i32]) -> HashMap<i32, Vec<String>> {
     let mut results: HashMap<i32, Vec<String>> = HashMap::new();
     
     if numbers.len() == 1 {
