@@ -1,1 +1,7 @@
 /target
+
+/src/*.exe
+/src/*.pdb
+
+# アルゴリズムを試す場所
+/prototype
