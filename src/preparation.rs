@@ -45,6 +45,7 @@ pub fn create_combination(n: &[i32]) -> Vec<Vec<i32>> {
     result
 }
 
+// 与えられた数字の並びから、指定された数のカンマを挿入する組み合わせを全て作成
 fn number_combinations(n: &[i32], comma: u32) -> Vec<Vec<i32>>{
     if comma == 0 {
         return vec![trans_list_to_number(n)];
