@@ -1,4 +1,4 @@
-use std::{collections::HashMap, result};
+use std::collections::HashMap;
 
 mod preparation;
 
@@ -29,8 +29,9 @@ fn convert_to_334(n: i32) -> String {
 
 fn main() {
     println!("Converting natural number to 334 equation");
+    let nums = vec![3,3,4];
     // let result = convert_to_334(10);
-    let result = preparation::create_all_combinations(vec![1,2,3,4]);
+    let result = preparation::create_all_combinations(&nums);
     // println!("Result: {:?}", result);
     let mut sorted_result: Vec<_> = result.iter().collect();
     sorted_result.sort();

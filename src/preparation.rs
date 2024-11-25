@@ -1,4 +1,4 @@
-use std::{collections::HashMap, result};
+use std::collections::HashMap;
 
 #[derive(Debug, Clone, Copy)]
 enum Operator {
@@ -36,7 +36,7 @@ impl Operator {
 }
 
 // 与えられたn桁の数字の並びを保持したまま、作ることができる組み合わせを全て作成
-pub fn create_combination(n: &Vec<i32>) -> Vec<Vec<i32>> {
+pub fn create_combination(n: &[i32]) -> Vec<Vec<i32>> {
     let mut result: Vec<Vec<i32>> = Vec::new();
     for i in 0..n.len() {
         result.extend(number_combinations(&n, i as u32));
@@ -45,7 +45,7 @@ pub fn create_combination(n: &Vec<i32>) -> Vec<Vec<i32>> {
     result
 }
 
-fn number_combinations(n: &Vec<i32>, comma: u32) -> Vec<Vec<i32>>{
+fn number_combinations(n: &[i32], comma: u32) -> Vec<Vec<i32>>{
     if comma == 0 {
         return vec![trans_list_to_number(n)];
     }
@@ -53,7 +53,7 @@ fn number_combinations(n: &Vec<i32>, comma: u32) -> Vec<Vec<i32>>{
     let mut result: Vec<Vec<i32>> = Vec::new();
     for i in 1..(n.len()-comma as usize+1) {
         for sublist in number_combinations(&n[i..].to_vec(), comma-1) {
-            let mut combined = trans_list_to_number(&n[..i].to_vec());
+            let mut combined = trans_list_to_number(&n[..i]);
             combined.extend(sublist);
             result.push(combined);
         }
@@ -62,7 +62,7 @@ fn number_combinations(n: &Vec<i32>, comma: u32) -> Vec<Vec<i32>>{
     result
 }
 
-fn trans_list_to_number(n: &Vec<i32>) -> Vec<i32> {
+fn trans_list_to_number(n: &[i32]) -> Vec<i32> {
     let mut result = 0;
 
     for i in n {
@@ -72,7 +72,7 @@ fn trans_list_to_number(n: &Vec<i32>) -> Vec<i32> {
     vec![result]
 }
 
-pub fn create_all_combinations(n: Vec<i32>) -> HashMap<i32, Vec<String>> {
+pub fn create_all_combinations(n: &[i32]) -> HashMap<i32, Vec<String>> {
     let mut result: HashMap<i32, Vec<String>> = HashMap::new();
 
     for i in create_combination(&n) {
