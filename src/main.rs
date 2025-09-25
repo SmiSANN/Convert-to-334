@@ -15,11 +15,11 @@ fn convert_to_334(n: u32) -> String {
         }
     }
     // 操作を不可能にするため、使う数字の配列をコピー
-    let conversion_criteria_number_array: Vec<i32> = conversion_criteria_number_tmp_array.iter().map(|&x| x.parse::<i32>().unwrap()).collect();
+    let conversion_criteria_number_array: Vec<u32> = conversion_criteria_number_tmp_array.iter().map(|&x| x.parse::<u32>().unwrap()).collect();
     println!("Conversion Criteria Number Array: {:?}", conversion_criteria_number_array);
 
     // 与えられた数字の組み合わせで全ての計算式を計算
-    let mut result1: HashMap<i32, Vec<String>> = HashMap::new();
+    let mut result1: HashMap<u32, Vec<String>> = HashMap::new();
 
     // println!("Result1: {:?}", result1);
 
