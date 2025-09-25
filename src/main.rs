@@ -1,8 +1,9 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, env};
 
+mod prime_factorization;
 mod preparation;
 
-fn convert_to_334(n: i32) -> String {
+fn convert_to_334(n: u32) -> String {
     // 使用する数字
     let conversion_criteria_number = "334";
     let conversion_criteria_number_len = conversion_criteria_number.len();
@@ -29,6 +30,31 @@ fn convert_to_334(n: i32) -> String {
 
 fn main() {
     println!("Converting natural number to 334 equation");
+        // コマンドライン引数を取得
+    let args: Vec<String> = env::args().collect();
+
+    // 引数のバリデーション
+    if args.len() < 2 {
+        eprintln!("エラー: 数字を引数として指定してください。");
+        eprintln!("使い方: {} <変換したい自然数>", args[0]);
+        std::process::exit(1);
+    }
+
+    // 引数をu64型にパース
+    let num_to_factor = match args[1].parse::<u64>() {
+        Ok(n) => n,
+        Err(_) => {
+            eprintln!("エラー: 有効な正の整数を指定してください。");
+            std::process::exit(1);
+        }
+    };
+
+    let factors = prime_factorization::prime_factorize(num_to_factor);
+        for (prime, exp) in factors {
+        print!("{{{},{}}}", prime, exp);
+        convert_to_334(prime as u32);
+    }
+
     let nums = vec![3,3,4];
     // let result = convert_to_334(10);
     let result = preparation::create_all_combinations(&nums);
