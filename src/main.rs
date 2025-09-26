@@ -3,7 +3,7 @@ use std::{collections::HashMap, env};
 mod prime_factorization;
 mod preparation;
 
-fn convert_to_334(n: i64) -> String {
+fn convert_to_334(n: i64, exp: i64) -> String {
     // 使用する数字
     let conversion_criteria_number = "334";
     let conversion_criteria_number_len = conversion_criteria_number.len();
@@ -52,11 +52,10 @@ fn main() {
     let factors = prime_factorization::prime_factorize(num_to_factor);
         for (prime, exp) in factors {
         print!("{{{},{}}}", prime, exp);
-        // convert_to_334(prime as i64);
+        convert_to_334(prime as i64, exp as i64);
     }
 
     let nums = vec![3,3,4];
-    // let result = convert_to_334(10);
     let result = preparation::create_all_combinations(&nums);
     // println!("Result: {:?}", result);
     let mut sorted_result: Vec<_> = result.iter().collect();
