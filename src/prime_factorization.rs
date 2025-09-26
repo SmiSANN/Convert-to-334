@@ -79,7 +79,7 @@ fn pollards_rho(n: u64) -> u64 {
 }
 
 // 素因数分解のメイン関数
-pub fn prime_factorize(mut n: u64) -> BTreeMap<u64, u32> {
+pub fn prime_factorize(mut n: u64) -> BTreeMap<u64, i64> {
     let mut factors = BTreeMap::new();
     if n < 2 { return factors; }
     for &p in &TRIAL_DIVISION_PRIMES {

@@ -3,7 +3,7 @@ use std::{collections::HashMap, env};
 mod prime_factorization;
 mod preparation;
 
-fn convert_to_334(n: u32) -> String {
+fn convert_to_334(n: i64) -> String {
     // 使用する数字
     let conversion_criteria_number = "334";
     let conversion_criteria_number_len = conversion_criteria_number.len();
@@ -15,11 +15,11 @@ fn convert_to_334(n: u32) -> String {
         }
     }
     // 操作を不可能にするため、使う数字の配列をコピー
-    let conversion_criteria_number_array: Vec<u32> = conversion_criteria_number_tmp_array.iter().map(|&x| x.parse::<u32>().unwrap()).collect();
+    let conversion_criteria_number_array: Vec<i64> = conversion_criteria_number_tmp_array.iter().map(|&x| x.parse::<i64>().unwrap()).collect();
     println!("Conversion Criteria Number Array: {:?}", conversion_criteria_number_array);
 
     // 与えられた数字の組み合わせで全ての計算式を計算
-    let mut result1: HashMap<u32, Vec<String>> = HashMap::new();
+    let mut result1: HashMap<i64, Vec<String>> = HashMap::new();
 
     // println!("Result1: {:?}", result1);
 
@@ -52,7 +52,7 @@ fn main() {
     let factors = prime_factorization::prime_factorize(num_to_factor);
         for (prime, exp) in factors {
         print!("{{{},{}}}", prime, exp);
-        convert_to_334(prime as u32);
+        // convert_to_334(prime as i64);
     }
 
     let nums = vec![3,3,4];

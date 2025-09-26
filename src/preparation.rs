@@ -9,7 +9,7 @@ enum Operator {
 }
 
 impl Operator {
-    fn apply(&self, a: u32, b: u32) -> Option<u32> {
+    fn apply(&self, a: i64, b: i64) -> Option<i64> {
         match self {
             Operator::Add => Some(a + b),
             Operator::Sub => Some(a - b),
@@ -27,7 +27,7 @@ impl Operator {
         }
     }
     
-    fn precedence(&self) -> u32 {
+    fn precedence(&self) -> i64 {
         match self {
             Operator::Mul | Operator::Div => 2,
             Operator::Add | Operator::Sub => 1,
@@ -36,22 +36,22 @@ impl Operator {
 }
 
 // 与えられたn桁の数字の並びを保持したまま、作ることができる組み合わせを全て作成
-pub fn create_combination(n: &[u32]) -> Vec<Vec<u32>> {
-    let mut result: Vec<Vec<u32>> = Vec::new();
+pub fn create_combination(n: &[i64]) -> Vec<Vec<i64>> {
+    let mut result: Vec<Vec<i64>> = Vec::new();
     for i in 0..n.len() {
-        result.extend(number_combinations(&n, i as u32));
+        result.extend(number_combinations(&n, i as i64));
     }
 
     result
 }
 
 // 与えられた数字の並びから、指定された数のカンマを挿入する組み合わせを全て作成
-fn number_combinations(n: &[u32], comma: u32) -> Vec<Vec<u32>>{
+fn number_combinations(n: &[i64], comma: i64) -> Vec<Vec<i64>>{
     if comma == 0 {
         return vec![trans_list_to_number(n)];
     }
 
-    let mut result: Vec<Vec<u32>> = Vec::new();
+    let mut result: Vec<Vec<i64>> = Vec::new();
     for i in 1..(n.len()-comma as usize+1) {
         for sublist in number_combinations(&n[i..].to_vec(), comma-1) {
             let mut combined = trans_list_to_number(&n[..i]);
@@ -63,7 +63,7 @@ fn number_combinations(n: &[u32], comma: u32) -> Vec<Vec<u32>>{
     result
 }
 
-fn trans_list_to_number(n: &[u32]) -> Vec<u32> {
+fn trans_list_to_number(n: &[i64]) -> Vec<i64> {
     let mut result = 0;
 
     for i in n {
@@ -73,8 +73,8 @@ fn trans_list_to_number(n: &[u32]) -> Vec<u32> {
     vec![result]
 }
 
-pub fn create_all_combinations(n: &[u32]) -> HashMap<u32, Vec<String>> {
-    let mut result: HashMap<u32, Vec<String>> = HashMap::new();
+pub fn create_all_combinations(n: &[i64]) -> HashMap<i64, Vec<String>> {
+    let mut result: HashMap<i64, Vec<String>> = HashMap::new();
 
     for i in create_combination(&n) {
         result.extend(calculate_all_expressions(&i));
@@ -85,8 +85,8 @@ pub fn create_all_combinations(n: &[u32]) -> HashMap<u32, Vec<String>> {
 
 // 与えられた数字の組み合わせで全ての計算式を計算
 // 計算結果と計算式のリストのマップを返す
-fn calculate_all_expressions(numbers: &[u32]) -> HashMap<u32, Vec<String>> {
-    let mut results: HashMap<u32, Vec<String>> = HashMap::new();
+fn calculate_all_expressions(numbers: &[i64]) -> HashMap<i64, Vec<String>> {
+    let mut results: HashMap<i64, Vec<String>> = HashMap::new();
     
     if numbers.len() == 1 {
         results.insert(numbers[0], vec![numbers[0].to_string()]);
